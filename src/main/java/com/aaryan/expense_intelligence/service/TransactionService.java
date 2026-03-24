@@ -1,6 +1,7 @@
 package com.aaryan.expense_intelligence.service;
 
 import com.aaryan.expense_intelligence.entity.Transaction;
+import com.aaryan.expense_intelligence.entity.User;
 import com.aaryan.expense_intelligence.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,8 @@ public class TransactionService {
         return repository.save(transaction);
     }
 
-    public List<Transaction> getAllTransactions() {
-        return repository.findAll();
+    public List<Transaction> getUserTransactions(User user) {
+        return repository.findByUser(user);
     }
 
     public void deleteTransaction(Long id) {

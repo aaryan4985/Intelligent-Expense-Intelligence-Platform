@@ -18,7 +18,7 @@ public class Transaction {
 
     private Double amount;
 
-    private String type; // INCOME or EXPENSE
+    private String type;
 
     private String category;
 
@@ -26,4 +26,7 @@ public class Transaction {
 
     private LocalDate date;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
