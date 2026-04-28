@@ -5,6 +5,7 @@ import com.aaryan.expense_intelligence.dto.SignupRequest;
 import com.aaryan.expense_intelligence.entity.User;
 import com.aaryan.expense_intelligence.security.JwtUtil;
 import com.aaryan.expense_intelligence.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,5 +42,14 @@ public class AuthController {
         }
 
         return jwtUtil.generateToken(user.getEmail());
+    }
+
+    @GetMapping("/me")
+    public User getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("User not authenticated");
+        }
+        String email = authentication.getName();
+        return userService.findByEmail(email);
     }
 }

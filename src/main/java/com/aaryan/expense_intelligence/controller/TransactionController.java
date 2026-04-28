@@ -9,8 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/transactions")
 public class TransactionController {
 
@@ -28,9 +30,7 @@ public class TransactionController {
             Authentication authentication) {
 
         String email = authentication.getName();
-
         User user = userService.findByEmail(email);
-
         transaction.setUser(user);
 
         return service.addTransaction(transaction);
@@ -40,15 +40,26 @@ public class TransactionController {
     public List<Transaction> getTransactions(Authentication authentication) {
 
         String email = authentication.getName();
-
         User user = userService.findByEmail(email);
 
         return service.getUserTransactions(user);
     }
 
+    @GetMapping("/summary")
+    public Map<String, Double> getTransactionSummary(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userService.findByEmail(email);
+
+        return service.getTransactionSummary(user);
+    }
+
+    @PutMapping("/{id}")
+    public Transaction updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
+        return service.updateTransaction(id, transaction);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteTransaction(@PathVariable Long id) {
-
         service.deleteTransaction(id);
     }
 }
