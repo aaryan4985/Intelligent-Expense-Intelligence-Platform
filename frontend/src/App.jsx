@@ -35,6 +35,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
+      <div className="background-wrapper"></div>
       <Router>
         <AppRoutes />
       </Router>
